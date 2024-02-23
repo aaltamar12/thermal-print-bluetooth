@@ -2,51 +2,63 @@
 import "./globals.css";
 import { conectar, printText, conectarDispositivo, printIos } from "../app/helpers/printHelper";
 import { useEffect, useRef, useState } from "react";
-import { Bluetooth, Print } from "@mui/icons-material";
+import { Bluetooth, Print, Save } from "@mui/icons-material";
 
 import { Editor } from "@tinymce/tinymce-react";
+import CustomDropdown from "./components/ui/Dropdown";
 
 export default function Index({ children }) {
   const [printer, setPrint] = useState();
   const [value, setValue] = useState();
 
+  const savedTexts = [{
+    name: "Envios", value: `<h3><strong>REMITENTE</strong></h3>
+  <p>Nadiuska Quintero</p>
+  <p>C.C:</p>
+  <p>Cel:&nbsp;</p>
+  <p>&nbsp;</p>
+  <h3><strong>DESTINATARIO</strong></h3>
+  <p>Nombre: </p>
+  <p>C.C:</p>
+  <p>Cel:&nbsp;</p>
+  <p>Direccion:</p>
+  <p>Ciudad:</p>` }]
+
   const connect = async () => {
     setPrint(await conectarDispositivo());
   };
 
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
+  const saveText = async (text) => {
+    //Abrir modal Nombre
+    //Guardar nombre y valor en local storage o alternativa app ios
+  }
+
+  const loadText = (text) => {
+    setValue(text);
+  }
 
   const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
 
   return (
     <div className="flex flex-col justify-center items-center content-center h-screen bg-gray-300 gap-5 text-white">
       <h1 className="text-4xl text-gray-600">Imprimir</h1>
-      <div className=" bg-white text-black rounded-lg w-full p-5">
-        {/* <ReactQuill
-          className="h-[80%]"
-          theme="snow"
-          value={value}
-          onChange={setValue}
-        /> */}
 
-        {/* <CKEditor
-          editor={ClassicEditor}
-          data={value}
-          onChange={(event, editor) => {
-            const data = editor.getData();
-            console.log(data);
-            setValue(data);
-          }}
-        /> */}
 
+      <div className=" flex flex-col bg-white text-black rounded-lg gap-4 w-full p-5">
+        <CustomDropdown
+          key={1} // Asegúrate de proporcionar una clave única para cada elemento
+          options={savedTexts}
+          labelButton="Elige una plantilla"
+          ariaLabel="Saved dropdown"
+          height={"h-8"}
+          width={"w-52"}
+          onSelectValue={(optionSelected) => {
+            loadText(optionSelected)
+          }
+          }
+        />
         <Editor
+          value={value}
           apiKey="x2j749rxxjwjdlo62rhbo5st7pohazyl5ikmqe7dvuy79ukw"
           onInit={(evt, editor) => (editorRef.current = editor)}
           onEditorChange={setValue}
@@ -84,6 +96,7 @@ export default function Index({ children }) {
         />
       </div>
 
+
       <div className="flex justify-center items-center gap-4 h-32 w-full p-5 text-gray-500">
         <button
           onClick={async () => {
@@ -101,6 +114,15 @@ export default function Index({ children }) {
           className="bg-white rounded-lg h-[70px] w-full"
         >
           <Print />
+        </button>
+
+        <button
+          onClick={async () => {
+            await saveText(value);
+          }}
+          className="bg-white rounded-lg h-[70px] w-full"
+        >
+          <Save />
         </button>
       </div>
     </div>
