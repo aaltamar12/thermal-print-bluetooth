@@ -49,7 +49,6 @@ export default function Index({ children }) {
         <Editor
           apiKey="x2j749rxxjwjdlo62rhbo5st7pohazyl5ikmqe7dvuy79ukw"
           onInit={(evt, editor) => (editorRef.current = editor)}
-          initialValue={value}
           onEditorChange={setValue}
           init={{
             height: 500,
