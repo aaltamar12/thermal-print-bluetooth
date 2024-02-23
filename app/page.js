@@ -3,12 +3,6 @@ import "./globals.css";
 import { conectar, printText, conectarDispositivo, printIos } from "../app/helpers/printHelper";
 import { useEffect, useRef, useState } from "react";
 import { Bluetooth, Print } from "@mui/icons-material";
-//import ReactQuill from "react-quill";
-//import "react-quill/dist/quill.snow.css";
-//import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-
-// import { CKEditor } from "@ckeditor/ckeditor5-react";
-// import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 import { Editor } from "@tinymce/tinymce-react";
 

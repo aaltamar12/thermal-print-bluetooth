@@ -4,11 +4,14 @@ PODS:
   - CapacitorCommunityBluetoothLe (3.1.2):
     - Capacitor
   - CapacitorCordova (5.7.0)
+  - CapacitorSplashScreen (5.0.7):
+    - Capacitor
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorCommunityBluetoothLe (from `../../node_modules/@capacitor-community/bluetooth-le`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
 
 EXTERNAL SOURCES:
   Capacitor:
@@ -17,12 +20,15 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor-community/bluetooth-le"
   CapacitorCordova:
     :path: "../../node_modules/@capacitor/ios"
+  CapacitorSplashScreen:
+    :path: "../../node_modules/@capacitor/splash-screen"
 
 SPEC CHECKSUMS:
   Capacitor: fc155ee2ee45a2093d716f13cf5aa5a865e2d85a
   CapacitorCommunityBluetoothLe: 828c26547dd1d5ed2422bb9cf6b221c1385909c7
   CapacitorCordova: e825fce1a2e14e4b5730641c7e098dccf74397b7
+  CapacitorSplashScreen: dd3de3f3644710fa2a697cfb91ec262eece4d242
 
-PODFILE CHECKSUM: 47998e176d73fb1dcd46c2cd81d1fab8a9f392d8
+PODFILE CHECKSUM: 7fb87492de2d1f41e33c9ad1186fa0acc2183d9e
 
 COCOAPODS: 1.13.0
