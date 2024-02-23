@@ -1,6 +1,6 @@
 "use client";
 import "./globals.css";
-import { conectar, printText } from "../app/helpers/printHelper";
+import { conectar, printText, conectarDispositivo, printIos } from "../app/helpers/printHelper";
 import { useEffect, useRef, useState } from "react";
 import { Bluetooth, Print } from "@mui/icons-material";
 //import ReactQuill from "react-quill";
@@ -17,7 +17,7 @@ export default function Index({ children }) {
   const [value, setValue] = useState();
 
   const connect = async () => {
-    setPrint(await conectar());
+    setPrint(await conectarDispositivo());
   };
 
   useEffect(() => {
@@ -103,7 +103,7 @@ export default function Index({ children }) {
 
         <button
           onClick={async () => {
-            await printText(printer, value);
+            await printIos(printer, value);
           }}
           className="bg-white rounded-lg h-[70px] w-full"
         >
