@@ -32,16 +32,25 @@ export default function Index({ children }) {
   };
 
   const loadTemplates = async () => {
-    const loadedTemplates = await getCookieNext("templates");
-    loadedTemplates && setTemplates(JSON.parse(loadedTemplates));
+    try {
+      const loadedTemplates = await getCookieNext("templates");
+      loadedTemplates && setTemplates(JSON.parse(loadedTemplates));
+    } catch (error) {
+      console.error("Error al cargar Templates", error);
+    }
   }
 
   const saveText = async (text) => {
-    const { value: nameTemplate } = await newDialog("Nuevo Template", "Nombre del nuevo template");
-    const newTemplates = [...templates, { name: nameTemplate, value }]
+    try {
+      const { value: nameTemplate } = await newDialog("Nuevo Template", "Nombre del nuevo template");
+      const newTemplates = [...templates, { name: nameTemplate, value }]
 
-    await setCookieNext("templates", newTemplates);
-    await loadTemplates()
+      await setCookieNext("templates", await JSON.stringify(newTemplates));
+
+      await loadTemplates();
+    } catch (error) {
+      console.error("Ocurrio un error al guardar el texto", error);
+    }
   }
 
   const loadText = (text) => {
@@ -54,25 +63,21 @@ export default function Index({ children }) {
     loadTemplates();
   }, []);
 
-  useEffect(() => {
-    console.log({ templates });
-  }, [templates]);
-
 
   return (
-    <div className="flex flex-col justify-center items-center content-center h-screen bg-gray-300 gap-5 text-white">
+    <div className="flex flex-col justify-center items-center content-center h-screen bg-gray-300 text-white pt-10">
 
       <Image
-        className="object-cover"
-        width={130}
-        height={130}
+        className="object-cover h-[100px] w-[100px]"
+        width={0}
+        height={0}
         alt={`App Logo`}
         src={
           Logo
         }
       />
 
-      <div className=" flex flex-col bg-white text-black rounded-lg gap-4 w-full p-5">
+      <div className=" flex flex-col bg-white text-black rounded-lg gap-4 w-[95%] p-5">
         <CustomDropdown
           key={1} // Asegúrate de proporcionar una clave única para cada elemento
           options={templates}
@@ -130,7 +135,7 @@ export default function Index({ children }) {
           onClick={async () => {
             await connect();
           }}
-          className="bg-white rounded-lg h-[70px] w-full flex justify-center items-center gap-2"
+          className="bg-white rounded-lg h-[70px] w-full flex justify-center items-center gap-2 p-3"
         >
           <Bluetooth /> <h1> Conectar</h1>
         </button>

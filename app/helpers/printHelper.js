@@ -13,7 +13,6 @@ const conectarDispositivo = async () => {
 
     // connect to device, the onDisconnect callback is optional
     await BleClient.connect(device.deviceId, (deviceId) => onDisconnect(deviceId));
-    console.log('connected to device', device);
 
     return device.deviceId
 
@@ -31,7 +30,6 @@ const printIos = async (printer, printData) => {
 
 const conectar = async () => {
   try {
-    console.log("CONECTANDO");
     // Solicitar permiso para acceder al dispositivo Bluetooth
     device = await navigator.bluetooth.requestDevice({
       filters: [
@@ -52,7 +50,6 @@ const conectar = async () => {
 };
 
 const printText = async (server, printData) => {
-  console.log({ server });
   // Obtener el servicio de impresión
   const service = await server.getPrimaryService(
     "000018f0-0000-1000-8000-00805f9b34fb"
@@ -77,8 +74,6 @@ const printText = async (server, printData) => {
 
 `;
 
-  console.log({ data });
-
   const text = new TextEncoder("utf-8").encode(data + "\u000A\u000D");
   await characteristic.writeValue(text);
 };
@@ -88,14 +83,11 @@ export function convertirHTMLaTextoConEstilos(html) {
   const doc = parser.parseFromString(html, "text/html");
   let textoConEstilos = "";
 
-  console.log(html);
-
   doc.body.childNodes.forEach((node) => {
     if (node.nodeType === Node.ELEMENT_NODE) {
       const tagName = node.tagName.toLowerCase();
       switch (tagName) {
         case "h1":
-          console.log("PASE POR h1", node.textContent.trim());
           textoConEstilos += "\x1B\x21\x30" + node.textContent.trim() + "\n";
           break;
         case "h2":
@@ -110,7 +102,6 @@ export function convertirHTMLaTextoConEstilos(html) {
         case "h5":
         case "h6":
         case "strong":
-          console.log("PASE POR BOLD", node.textContent.trim());
           textoConEstilos +=
             "\x1B\x45\x01" + node.textContent.trim() + "\x1B\x45\x00";
           break;
@@ -122,7 +113,6 @@ export function convertirHTMLaTextoConEstilos(html) {
           textoConEstilos += "\n";
           break;
         case "p":
-          console.log("PASE POR p", node.textContent);
           textoConEstilos += "\x1B\x21\x01" + node.textContent.trim() + "\n";
           break;
         default:
@@ -133,7 +123,6 @@ export function convertirHTMLaTextoConEstilos(html) {
       textoConEstilos += node.textContent;
     }
   });
-  console.log(textoConEstilos);
   return textoConEstilos;
 }
 

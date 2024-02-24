@@ -3,7 +3,6 @@ import { Preferences } from "@capacitor/preferences";
 import { Device } from "@capacitor/device";
 
 export async function setCookieNext(name, value) {
-    console.log("ACA EN STORAGE");
     if (await validateDevice()) {
         setCookie(name, value);
     } else {
@@ -12,15 +11,20 @@ export async function setCookieNext(name, value) {
 }
 
 export async function getCookieNext(name) {
-    let cookie;
+    try {
+        let cookie;
 
-    if (validateDevice()) {
-        cookie = getCookie(name);
-    } else {
-        cookie = getObject(name);
+        if (await validateDevice()) {
+            cookie = getCookie(name);
+        } else {
+            cookie = await getObject(name);
+        }
+
+        return cookie;
+
+    } catch (error) {
+        console.error("Error al leer cookie", error);
     }
-
-    return cookie;
 }
 
 export async function deleteCookieNext(name) {
