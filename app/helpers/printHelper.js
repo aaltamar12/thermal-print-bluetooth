@@ -3,9 +3,6 @@ import { BleClient } from '@capacitor-community/bluetooth-le';
 let device;
 let characteristic;
 
-
-
-
 const conectarDispositivo = async () => {
   try {
     await BleClient.initialize();

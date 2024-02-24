@@ -1,36 +1,47 @@
 "use client";
 import "./globals.css";
-import { conectar, printText, conectarDispositivo, printIos } from "../app/helpers/printHelper";
+import { conectarDispositivo, printIos } from "../app/helpers/printHelper";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Logo from "../public/logo.png";
 import { Bluetooth, Print, Save } from "@mui/icons-material";
 
 import { Editor } from "@tinymce/tinymce-react";
 import CustomDropdown from "./components/ui/Dropdown";
+import { setCookieNext, getCookieNext } from "./helpers/storageHelper";
+import { newDialog } from "./helpers/capacitorHelper";
 
 export default function Index({ children }) {
   const [printer, setPrint] = useState();
   const [value, setValue] = useState();
-
-  const savedTexts = [{
+  const [templates, setTemplates] = useState([{
     name: "Envios", value: `<h3><strong>REMITENTE</strong></h3>
   <p>Nadiuska Quintero</p>
-  <p>C.C:</p>
-  <p>Cel:&nbsp;</p>
+  <p>C.C: 1047044161</p>
+  <p>Cel: 3012937141</p>
   <p>&nbsp;</p>
   <h3><strong>DESTINATARIO</strong></h3>
   <p>Nombre: </p>
-  <p>C.C:</p>
-  <p>Cel:&nbsp;</p>
-  <p>Direccion:</p>
-  <p>Ciudad:</p>` }]
+  <p>C.C:&nbsp; </p>
+  <p>Cel:&nbsp; </p>
+  <p>Direccion:&nbsp; </p>
+  <p>Ciudad:&nbsp; </p>` }]);
 
   const connect = async () => {
     setPrint(await conectarDispositivo());
   };
 
+  const loadTemplates = async () => {
+    const loadedTemplates = await getCookieNext("templates");
+    loadedTemplates && setTemplates(JSON.parse(loadedTemplates));
+  }
+
   const saveText = async (text) => {
-    //Abrir modal Nombre
-    //Guardar nombre y valor en local storage o alternativa app ios
+    const { value: nameTemplate } = await newDialog("Nuevo Template", "Nombre del nuevo template");
+    const newTemplates = [...templates, { name: nameTemplate, value }]
+
+    await setCookieNext("templates", newTemplates);
+    await loadTemplates()
   }
 
   const loadText = (text) => {
@@ -39,15 +50,32 @@ export default function Index({ children }) {
 
   const editorRef = useRef(null);
 
+  useEffect(() => {
+    loadTemplates();
+  }, []);
+
+  useEffect(() => {
+    console.log({ templates });
+  }, [templates]);
+
+
   return (
     <div className="flex flex-col justify-center items-center content-center h-screen bg-gray-300 gap-5 text-white">
-      <h1 className="text-4xl text-gray-600">Imprimir</h1>
 
+      <Image
+        className="object-cover"
+        width={130}
+        height={130}
+        alt={`App Logo`}
+        src={
+          Logo
+        }
+      />
 
       <div className=" flex flex-col bg-white text-black rounded-lg gap-4 w-full p-5">
         <CustomDropdown
           key={1} // Asegúrate de proporcionar una clave única para cada elemento
-          options={savedTexts}
+          options={templates}
           labelButton="Elige una plantilla"
           ariaLabel="Saved dropdown"
           height={"h-8"}

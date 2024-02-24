@@ -12,7 +12,10 @@
   "dependencies": {
     "@capacitor-community/bluetooth-le": "^3.1.2",
     "@capacitor/core": "^5.7.0",
+    "@capacitor/device": "^5.0.7",
+    "@capacitor/dialog": "^5.0.7",
     "@capacitor/ios": "^5.7.0",
+    "@capacitor/preferences": "^5.0.7",
     "@capacitor/splash-screen": "^5.0.7",
     "@ckeditor/ckeditor5-build-classic": "^41.1.0",
     "@ckeditor/ckeditor5-react": "^6.2.0",
